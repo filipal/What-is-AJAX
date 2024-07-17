@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AJAX Examples</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 20px;
+      }
+      .card {
+        margin-bottom: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .card h2 {
+        margin-top: 0;
+        color: #333;
+      }
+      .card input[type="text"],
+      .card input[type="submit"],
+      .card button {
+        margin: 5px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: auto;
+        display: inline-block;
+        font-size: 16px;
+      }
+      .card input[type="submit"],
+      .card button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        border: none;
+      }
+      .card input[type="submit"]:hover,
+      .card button:hover {
+        background-color: #0056b3;
+      }
+      .card div {
+        margin-top: 10px;
+      }
+      .card:nth-child(1) {
+        background-color: #e3f2fd; /* Light Blue */
+      }
+      .card:nth-child(2) {
+        background-color: #e8f5e9; /* Light Green */
+      }
+      .card:nth-child(3) {
+        background-color: #fff3e0; /* Light Orange */
+      }
+    </style>
+    <script>
+      function searchUsers() {
+        var name = document.getElementById("name").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("results").innerHTML = this.responseText;
+          }
+        };
+        xhttp.open("GET", "search_users.php?name=" + name, true);
+        xhttp.send();
+      }
+
+      function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML = this.responseText;
+          }
+        };
+        xhttp.open("GET", "ajax_info.txt", true);
+        xhttp.send();
+      }
+
+      function submitForm() {
+        var name = document.getElementById("form_name").value;
+        var email = document.getElementById("form_email").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("form_response").innerHTML =
+              this.responseText;
+          }
+        };
+        xhttp.open("POST", "submit_form.php", true);
+        xhttp.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
+        xhttp.send("name=" + name + "&email=" + email);
+      }
+    </script>
+  </head>
+  <body>
+    <div class="card" style="background-color: #e3f2fd">
+      <h2>Example 1: Search Users via AJAX</h2>
+      <input
+        type="text"
+        id="name"
+        onkeyup="searchUsers()"
+        placeholder="Enter name"
+      />
+      <div id="results"></div>
+    </div>
+
+    <div class="card" style="background-color: #e8f5e9">
+      <h2>Example 2: Load Content via AJAX</h2>
+      <button type="button" onclick="loadDoc()">Change Content</button>
+      <div id="demo">
+        <h3>Let AJAX change this text</h3>
+      </div>
+    </div>
+
+    <div class="card" style="background-color: #fff3e0">
+      <h2>Example 3: Submit Form via AJAX</h2>
+      <form onsubmit="event.preventDefault(); submitForm();">
+        Name: <input type="text" id="form_name" name="name" /><br />
+        Email: <input type="text" id="form_email" name="email" /><br />
+        <input type="submit" value="Submit" />
+      </form>
+      <div id="form_response"></div>
+    </div>
+  </body>
+</html>
